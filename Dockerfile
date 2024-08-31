@@ -1,12 +1,7 @@
-FROM ubuntu:trusty AS builder
+FROM httpd:latest
 WORKDIR /cow
-RUN apt-get update && apt-get install -qy open-cobol
+RUN apt-get update && apt-get upgrade && apt-get install -qy gnucobol
+COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
 COPY . /cow
-RUN ./downhill.sh
+RUN sh downhill.sh
 
-FROM ubuntu:trusty
-RUN apt-get update && apt-get install -qy apache2 libcob1
-COPY --from=builder /cow /cow
-EXPOSE 80
-CMD [ "-D", "FOREGROUND", "-f", "/cow/apache.conf"]
-ENTRYPOINT [ "/usr/sbin/apachectl" ]
