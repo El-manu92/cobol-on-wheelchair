@@ -5,4 +5,3 @@ RUN apt-get install -qy gnucobol make
 COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
 COPY . /cow
 RUN make -f downhill all
-RUN cp -p build/the.cow /usr/local/apache2/htdocs/the.cow

@@ -2,7 +2,7 @@
 
 COBOL_COMPILER = cobc        
 COBOL_FLAGS = -W -free
-TARGET = build/the.cow
+TARGET = the.cow
 SRCS = cow.cbl cowtemplate.cbl $(wildcard controllers/*.cbl)
 OBJS = $(patsubst %.cbl, build/%.o, $(SRCS))
 
