@@ -1,7 +1,8 @@
 FROM httpd:latest
 WORKDIR /cow
-RUN apt-get update && apt-get upgrade && apt-get install -qy gnucobol
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -qy gnucobol make
 COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
 COPY . /cow
-RUN sh downhill.sh
-
+RUN make -f downhill all
+RUN cp -p build/the.cow /usr/local/apache2/htdocs/the.cow

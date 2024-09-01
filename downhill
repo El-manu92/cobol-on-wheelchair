@@ -1,0 +1,36 @@
+#====================================================================
+
+COBOL_COMPILER = cobc        
+COBOL_FLAGS = -W -free
+TARGET = build/the.cow
+SRCS = cow.cbl cowtemplate.cbl $(wildcard controllers/*.cbl)
+OBJS = $(patsubst %.cbl, build/%.o, $(SRCS))
+
+#====================================================================
+
+all: build $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(COBOL_COMPILER) $(COBOL_FLAGS) -x -o $@ $^
+
+build/cow.o: cow.cbl
+	$(COBOL_COMPILER) $(COBOL_FLAGS) -x -c $< -o $@
+
+build/%.o: %.cbl
+	$(COBOL_COMPILER) $(COBOL_FLAGS) -c $< -o $@
+
+build:
+	mkdir -p build/controllers
+
+clean:
+	rm -f build/*.o $(TARGET)
+
+rebuild: clean all
+
+#====================================================================
+
+sources:
+	@echo $(SRCS)
+
+objects:
+	@echo $(OBJS)
